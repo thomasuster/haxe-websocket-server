@@ -2,7 +2,6 @@
 -main TestMain
 -lib munit
 -lib hamcrest
--lib minject
 -cp src
 
 -cp test
