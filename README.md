@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/thomasuster/haxe-websocket-server.svg?branch=master)](https://travis-ci.org/thomasuster/haxe-websocket-server) 
+
 ## Haxe Websocket Server (UNDER DEVELOPMENT)
 
 A haxe to neko server implementation of websockets.
