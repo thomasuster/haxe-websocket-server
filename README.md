@@ -1,3 +1,9 @@
+## Haxe Websocket Server
+
+A haxe to neko server implementation of websockets.
+
+### Installation
+
 Run the tests
 ```
 git clone git@github.com:thomasuster/haxe-websocket-server.git
