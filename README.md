@@ -1,4 +1,4 @@
-## Haxe Websocket Server
+## Haxe Websocket Server (UNDER DEVELOPMENT)
 
 A haxe to neko server implementation of websockets.
 

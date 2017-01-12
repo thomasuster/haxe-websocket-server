@@ -2,7 +2,7 @@
     "name": "haxe-websocket-server",
     "url": "",
     "classPath": "server/src/",
-    "license": "",
+    "license": "MIT",
     "tags": [],
     "description": "",
     "version": "0.0.1",
