@@ -1,7 +1,7 @@
 {
     "name": "haxe-websocket-server",
     "url": "",
-    "classPath": "server/src/",
+    "classPath": "src/",
     "license": "MIT",
     "tags": [],
     "description": "",
