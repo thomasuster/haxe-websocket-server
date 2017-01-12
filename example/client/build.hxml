@@ -1,0 +1,5 @@
+-cp src
+-main ExampleClient
+-js main-javascript.js
+-D js-flatten
+-dce full

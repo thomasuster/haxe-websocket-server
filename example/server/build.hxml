@@ -1,0 +1,4 @@
+-lib haxe-websocket-server
+-cp src
+-main ExampleServer
+-neko Build.n
