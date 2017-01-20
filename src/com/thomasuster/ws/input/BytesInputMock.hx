@@ -16,9 +16,8 @@ class BytesInputMock implements BytesInputProxy {
         return null;
     }
     
-    public function readBytes(buf:Bytes, pos:Int, len:Int):Int {
+    public function readFullBytes(buf:Bytes, pos:Int, len:Int):Void {
         buf.blit(pos, bytes, position, len);
         position+=len;
-        return len;
     }
 }

@@ -21,12 +21,12 @@ class FrameReader {
 
     public function read():Bytes {
         bytes = Bytes.alloc(maxFrameIntroSize);
-        readBytes(2);
+        readFullBytes(2);
         parseFirstByte();
         parseSecondByte();
         if(payloadLength == 126)
             parseExtendedPayloadLength();
-        readBytes(4);
+        readFullBytes(4);
         parseMask();
         return parseData();
     }
@@ -42,12 +42,12 @@ class FrameReader {
     }
 
     function parseExtendedPayloadLength():Void {
-        readBytes(2);
+        readFullBytes(2);
         payloadLength = (bytes.get(0) << 8) | bytes.get(1);    
     }
 
-    function readBytes(len:Int ) : Int {
-        return input.readBytes(bytes, 0, len);
+    function readFullBytes(len:Int ):Void {
+        input.readFullBytes(bytes, 0, len);
     }
 
     function parseMask():Void {
@@ -57,7 +57,7 @@ class FrameReader {
 
     function parseData():Bytes {
         var encoded:Bytes = Bytes.alloc(payloadLength);
-        input.readBytes(encoded,0,payloadLength);
+        input.readFullBytes(encoded,0,payloadLength);
         var decoded:Bytes = Bytes.alloc(payloadLength);
         for (i in 0...payloadLength) {
             var frame:Int = encoded.get(i);

@@ -11,7 +11,7 @@ class BytesInputReal implements BytesInputProxy {
         return input.readLine();
     }
 
-    public function readBytes(buf:Bytes, pos:Int, len:Int):Int {
-        return input.readBytes(buf,pos,len);
+    public function readFullBytes(buf:Bytes, pos:Int, len:Int):Void {
+        input.readBytes(buf,pos,len);
     }
 }
