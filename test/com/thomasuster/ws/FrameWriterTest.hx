@@ -33,6 +33,26 @@ class FrameWriterTest {
         if(t != '')
             Assert.fail(t);
     }
+    
+    @Test
+    public function test126Length():Void {
+        writer.payload = Bytes.alloc(126);
+        writer.payload.set(125,1);
+        writer.write();
+        var expected:String = '1 0 0 0 0 0 1 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0';
+        /*                     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 */
+        var datum:Array<String> = [expected];
+        for (i in 0...126) {
+            if(i == 125)
+                datum.push('0 0 0 0 0 0 0 1');
+            else
+                datum.push('0 0 0 0 0 0 0 0');
+        }
+        expected = datum.join(' ');
+        var t:String = byteStringer.assertEquals(mock.buffer.getBytes(), expected);
+        if(t != '')
+            Assert.fail(t);
+    }
 /*
       0                   1                   2                   3 //dec
       0               1               2               3             //bytes

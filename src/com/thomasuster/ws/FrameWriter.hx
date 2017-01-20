@@ -15,6 +15,7 @@ class FrameWriter {
 
     public function write():Void {
         var bytes:Bytes = Bytes.alloc(14);
+        var numUsed:Int = 2;
         
         var b0:Int = 0;
         b0 |= 0x80; //FIN
@@ -23,10 +24,21 @@ class FrameWriter {
 
         var b1:Int = 0;
         b1 |= 0x00; //MASK
-        b1 |= payload.length; //Length
+        if(payload.length == 126) {
+            numUsed = 4;
+            b1 |= 126;
+        }
+        else
+            b1 |= payload.length; //Length
         bytes.set(1,b1);
+        
+        if(numUsed == 4) {
+            var bExtended:Int = 0;
+            bExtended |= payload.length;
+            bytes.setUInt16(3, bExtended);
+        }
 
-        output.writeBytes(bytes, 0, 2);
+        output.writeBytes(bytes, 0, numUsed);
         
         output.writeBytes(payload, 0, payload.length);
     }
