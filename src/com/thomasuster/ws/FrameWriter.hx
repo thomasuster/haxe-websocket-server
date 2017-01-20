@@ -24,7 +24,7 @@ class FrameWriter {
 
         var b1:Int = 0;
         b1 |= 0x00; //MASK
-        if(payload.length == 126) {
+        if(payload.length >= 126) {
             numUsed = 4;
             b1 |= 126;
         }
