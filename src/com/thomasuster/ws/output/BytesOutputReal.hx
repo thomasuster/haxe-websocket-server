@@ -7,7 +7,7 @@ class BytesOutputReal implements BytesOutputProxy {
 
     public function new():Void {}
 
-    public function writeBytes(s:Bytes, pos:Int, len:Int):Int {
-        return output.writeBytes(s, pos, len);
+    public function writeFullBytes(s:Bytes, pos:Int, len:Int):Void {
+        output.writeFullBytes(s, pos, len);
     }
 }

@@ -44,7 +44,7 @@ class HandShaker {
 
     function writeString(string:String):Void {
         var b = Bytes.ofString(string);
-        output.writeBytes(b,0,b.length);
+        output.writeFullBytes(b,0,b.length);
     }
 
     public function hash(key:String):String {

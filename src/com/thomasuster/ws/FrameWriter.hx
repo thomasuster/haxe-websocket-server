@@ -47,15 +47,12 @@ class FrameWriter {
         else if(numUsed == 10) {
             var bExtended:Int = 0;
             bExtended |= payload.length;
-            trace(bExtended);
-            trace('got here');
-//            10000000000000000
             bytes.setInt32(5, bExtended);
         }
 
-        output.writeBytes(bytes, 0, numUsed);
+        output.writeFullBytes(bytes, 0, numUsed);
         
-        output.writeBytes(payload, 0, payload.length);
+        output.writeFullBytes(payload, 0, payload.length);
     }
 //
 //    /*

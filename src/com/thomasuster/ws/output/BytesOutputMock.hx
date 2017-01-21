@@ -9,8 +9,7 @@ class BytesOutputMock implements BytesOutputProxy {
         buffer = new BytesBuffer();
     }
 
-    public function writeBytes(s:Bytes, pos:Int, len:Int):Int {
+    public function writeFullBytes(s:Bytes, pos:Int, len:Int):Void {
         buffer.addBytes(s,pos,len);
-        return len;
     }
 }
