@@ -41,10 +41,15 @@ class ByteStringer {
 
     public function assertEquals(actual:Bytes, expected:String):String {
         var out:String = printInput(actual);
+        var s:String = assertLinedUp(out, expected);
+        return s;
+    }
+
+    public function assertLinedUp(actual:String, expected:String):String {
         var s:String = '';
-        if(out != expected) {
+        if(actual != expected) {
             s+='\nExpected: ' + expected + '\n';
-            s+=' But was: ' + out + '\n';
+            s+=' But was: ' + actual + '\n';
         }
         return s;
     }

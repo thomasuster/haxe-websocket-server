@@ -1,4 +1,5 @@
 package com.thomasuster.ws;
+import haxe.Int64;
 import haxe.io.BytesData;
 import com.thomasuster.ws.output.BytesOutputProxy;
 import haxe.io.Bytes;
@@ -25,8 +26,14 @@ class FrameWriter {
         var b1:Int = 0;
         b1 |= 0x00; //MASK
         if(payload.length >= 126) {
-            numUsed = 4;
-            b1 |= 126;
+            if(payload.length >= 65535) {
+                numUsed = 10;
+                b1 |= 127;   
+            }
+            else {
+                numUsed = 4;
+                b1 |= 126;
+            }
         }
         else
             b1 |= payload.length; //Length
@@ -37,6 +44,14 @@ class FrameWriter {
             bExtended |= payload.length;
             bytes.setUInt16(3, bExtended);
         }
+        else if(numUsed == 10) {
+            var bExtended:Int = 0;
+            bExtended |= payload.length;
+            trace(bExtended);
+            trace('got here');
+//            10000000000000000
+            bytes.setInt32(5, bExtended);
+        }
 
         output.writeBytes(bytes, 0, numUsed);
         
@@ -45,7 +60,8 @@ class FrameWriter {
 //
 //    /*
 //    https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers
-//      0                   1                   2                   3
+//      0                   1                   2                   3 //dec
+//      0               1               2               3             //bytes
 //      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 //     +-+-+-+-+-------+-+-------------+-------------------------------+
 //     |F|R|R|R| opcode|M| Payload len |    Extended payload length    |
