@@ -36,7 +36,7 @@ class FrameWriter {
             }
         }
         else
-            b1 |= payload.length; //Length
+            b1 |= payload.length;
         bytes.set(1,b1);
         
         if(numUsed == 4) {
@@ -48,7 +48,10 @@ class FrameWriter {
         else if(numUsed == 10) {
             var bExtended:Int = 0;
             bExtended |= payload.length;
-            bytes.setInt32(5, bExtended);
+            bytes.set(6, bExtended >>> 24);
+            bytes.set(7, bExtended >>> 16);
+            bytes.set(8, bExtended >>> 8);
+            bytes.set(9, bExtended);
         }
 
         output.writeFullBytes(bytes, 0, numUsed);

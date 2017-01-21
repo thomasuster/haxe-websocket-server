@@ -59,13 +59,28 @@ class FrameWriterTest {
     @Test
     public function test127Length():Void {
         writer.payload = Bytes.alloc(65536);
-        writer.payload.set(65535,1);
         writer.write();
         var first32:String = '1 0 0 0 0 0 1 0 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0';
         /*                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 */
         var second32:String ='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1';
         /*                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 */
         var third16:String = '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0';
+        /*                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 */
+        var out:String = byteStringer.printInput(mock.buffer.getBytes());
+        var t:String = byteStringer.assertLinedUp(out.substr(0, 159), first32+' '+second32+' '+third16);
+        if(t != '')
+            Assert.fail(t);
+    }
+    
+    @Test
+    public function tryMultiByteSpawnForLargerPayload():Void {
+        writer.payload = Bytes.alloc(66052);
+        writer.write();
+        var first32:String = '1 0 0 0 0 0 1 0 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0';
+        /*                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 */
+        var second32:String ='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1';
+        /*                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 */
+        var third16:String = '0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0';
         /*                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 */
         var out:String = byteStringer.printInput(mock.buffer.getBytes());
         var t:String = byteStringer.assertLinedUp(out.substr(0, 159), first32+' '+second32+' '+third16);
