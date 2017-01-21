@@ -1,4 +1,5 @@
 package com.thomasuster.ws;
+import haxe.io.Bytes;
 import haxe.Int64;
 import haxe.io.BytesData;
 import com.thomasuster.ws.output.BytesOutputProxy;
