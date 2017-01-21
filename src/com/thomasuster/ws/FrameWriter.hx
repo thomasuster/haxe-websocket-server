@@ -42,7 +42,8 @@ class FrameWriter {
         if(numUsed == 4) {
             var bExtended:Int = 0;
             bExtended |= payload.length;
-            bytes.setUInt16(3, bExtended);
+            bytes.set(2, bExtended >>> 8);
+            bytes.set(3, bExtended & 0x00FF);
         }
         else if(numUsed == 10) {
             var bExtended:Int = 0;

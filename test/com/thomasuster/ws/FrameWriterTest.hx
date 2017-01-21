@@ -72,6 +72,19 @@ class FrameWriterTest {
         if(t != '')
             Assert.fail(t);
     }
+    
+    @Test
+    public function test266UseCase():Void {
+        writer.payload = Bytes.alloc(266);
+        writer.payload.set(265,1);
+        writer.write();
+        var first32:String = '1 0 0 0 0 0 1 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 1 0 0 0 0 1 0 1 0';
+        /*                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 */
+        var out:String = byteStringer.printInput(mock.buffer.getBytes());
+        var t:String = byteStringer.assertLinedUp(out.substr(0, 63), first32);
+        if(t != '')
+            Assert.fail(t);
+    }
 /*
       0                   1                   2                   3 //dec
       0               1               2               3             //bytes
