@@ -17,10 +17,12 @@ class FrameReader {
 
     public function new():Void {
         maxFrameIntroSize = 14;
+        bytes = Bytes.alloc(maxFrameIntroSize);
+        mask = Bytes.alloc(4);
     }
 
     public function read():Bytes {
-        bytes = Bytes.alloc(maxFrameIntroSize);
+        bytes.fill(0,bytes.length,0);
         readFullBytes(2);
         parseFirstByte();
         parseSecondByte();
@@ -51,14 +53,13 @@ class FrameReader {
     }
 
     function parseMask():Void {
-        mask = Bytes.alloc(4);
         mask.blit(0, bytes, 0, 4);
     }
 
     function parseData():Bytes {
         var encoded:Bytes = Bytes.alloc(payloadLength);
         input.readFullBytes(encoded,0,payloadLength);
-        var decoded:Bytes = Bytes.alloc(payloadLength);
+        var decoded:Bytes = encoded;
         for (i in 0...payloadLength) {
             var frame:Int = encoded.get(i);
             decoded.set(i, frame ^ mask.get(i % 4));

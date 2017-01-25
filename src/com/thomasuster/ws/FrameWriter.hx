@@ -1,7 +1,4 @@
 package com.thomasuster.ws;
-import haxe.io.Bytes;
-import haxe.Int64;
-import haxe.io.BytesData;
 import com.thomasuster.ws.output.BytesOutputProxy;
 import haxe.io.Bytes;
 class FrameWriter {
@@ -10,19 +7,21 @@ class FrameWriter {
     public var payload:Bytes;
     
     var mask:Bytes;
+    var header:Bytes;
     
 	public function new():Void {
         mask = Bytes.alloc(4);
+        header = Bytes.alloc(14);
     }
 
     public function write():Void {
-        var bytes:Bytes = Bytes.alloc(14);
+        header.fill(0,header.length,0);
         var numUsed:Int = 2;
         
         var b0:Int = 0;
         b0 |= 0x80; //FIN
         b0 |= 0x02; //BINARY OP
-        bytes.set(0,b0);
+        header.set(0,b0);
 
         var b1:Int = 0;
         b1 |= 0x00; //MASK
@@ -38,24 +37,24 @@ class FrameWriter {
         }
         else
             b1 |= payload.length;
-        bytes.set(1,b1);
+        header.set(1,b1);
         
         if(numUsed == 4) {
             var bExtended:Int = 0;
             bExtended |= payload.length;
-            bytes.set(2, bExtended >>> 8);
-            bytes.set(3, bExtended & 0x00FF);
+            header.set(2, bExtended >>> 8);
+            header.set(3, bExtended & 0x00FF);
         }
         else if(numUsed == 10) {
             var bExtended:Int = 0;
             bExtended |= payload.length;
-            bytes.set(6, bExtended >>> 24);
-            bytes.set(7, bExtended >>> 16);
-            bytes.set(8, bExtended >>> 8);
-            bytes.set(9, bExtended);
+            header.set(6, bExtended >>> 24);
+            header.set(7, bExtended >>> 16);
+            header.set(8, bExtended >>> 8);
+            header.set(9, bExtended);
         }
 
-        output.writeFullBytes(bytes, 0, numUsed);
+        output.writeFullBytes(header, 0, numUsed);
         
         output.writeFullBytes(payload, 0, payload.length);
     }
