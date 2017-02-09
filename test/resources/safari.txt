@@ -1,0 +1,12 @@
+ GET / HTTP/1.1
+ Upgrade: websocket
+ Connection: Upgrade
+ Host: localhost:4000
+ Origin: file://
+ Pragma: no-cache
+ Cache-Control: no-cache
+ Sec-WebSocket-Key: 0q8SdRexpp8eEOdNRs8yfw==
+ Sec-WebSocket-Version: 13
+ Sec-WebSocket-Extensions: x-webkit-deflate-frame
+ User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/601.7.7 (KHTML, like Gecko) Version/9.1.2 Safari/601.7.7
+ 

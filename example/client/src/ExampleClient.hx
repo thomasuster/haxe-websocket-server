@@ -28,6 +28,7 @@ class ExampleClient {
     }
 
     function connect():Void {
+        trace("connecting...");
         ws = new WebSocket("ws://localhost:4000");
         ws.onopen = handleJSOpen;
         ws.onclose = handleJSClose;
@@ -43,11 +44,11 @@ class ExampleClient {
     }
 
     function handleJSOpen(evt:Event) {
-        trace('handleJSOpen\n');
+        trace('connection open\n');
     }
 
     function handleJSClose(evt:Event) {
-        trace('handleJSOpen\n');
+        trace("connection closed\n");
     }
 
     function handleJSMessage(evt:MessageEvent) {
@@ -65,8 +66,7 @@ class ExampleClient {
         fileReader.readAsArrayBuffer(evt.data);
     }
 
-    function handleJSError(evt:MessageEvent)
-    {
+    function handleJSError(evt:MessageEvent) {
         trace("Error: " + evt.data + '\n');
     }
 }

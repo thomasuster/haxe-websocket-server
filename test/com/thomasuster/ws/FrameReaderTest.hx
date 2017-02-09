@@ -1,4 +1,5 @@
 package com.thomasuster.ws;
+import haxe.io.BytesInput;
 import com.thomasuster.ws.input.BytesInputMock;
 import com.thomasuster.ws.input.ByteStringer;
 import haxe.io.BytesData;
@@ -30,7 +31,7 @@ class FrameReaderTest {
     public function test1ByteInput():Void {
         var data:String = '1 0 0 0 0 0 1 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1';
         /*                 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 */
-        mock.bytes = frameInput.makeInput(data);
+        mock.bytes = new BytesInput(frameInput.makeInput(data));
         var out:Bytes = frame.read();
         MatcherAssert.assertThat(out.length, IsEqual.equalTo(1));
         MatcherAssert.assertThat(out.get(0), IsEqual.equalTo(1));
@@ -40,7 +41,7 @@ class FrameReaderTest {
     public function test1ByteMasked():Void {
         var data:String = '1 0 0 0 0 0 1 0 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0';
         /*                 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 */
-        mock.bytes = frameInput.makeInput(data);
+        mock.bytes = new BytesInput(frameInput.makeInput(data));
         var out:Bytes = frame.read();
         MatcherAssert.assertThat(out.get(0), IsEqual.equalTo(1));
     }
@@ -49,7 +50,7 @@ class FrameReaderTest {
     public function test2ByteInput():Void {
         var data:String = '1 0 0 0 0 0 1 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1';
         /*                 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 */
-        mock.bytes = frameInput.makeInput(data);
+        mock.bytes = new BytesInput(frameInput.makeInput(data));
         var out:Bytes = frame.read();
         MatcherAssert.assertThat(out.length, IsEqual.equalTo(2));
         var t:String = frameInput.assertEquals(out, '0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1');
@@ -66,7 +67,7 @@ class FrameReaderTest {
         bytes.addBytes(intro,0,8);
         bytes.addBytes(Bytes.alloc(125),0,125);
         bytes.addByte(0x01);
-        mock.bytes = bytes.getBytes();
+        mock.bytes = new BytesInput(bytes.getBytes());
         var out:Bytes = frame.read();
         MatcherAssert.assertThat(out.length, IsEqual.equalTo(126));
         MatcherAssert.assertThat(out.get(125), IsEqual.equalTo(1));

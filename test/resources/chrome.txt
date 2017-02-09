@@ -1,0 +1,14 @@
+ GET / HTTP/1.1
+ Host: localhost:4000
+ Connection: Upgrade
+ Pragma: no-cache
+ Cache-Control: no-cache
+ Upgrade: websocket
+ Origin: file://
+ Sec-WebSocket-Version: 13
+ User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36
+ Accept-Encoding: gzip, deflate, sdch, br
+ Accept-Language: en-US,en;q=0.8
+ Sec-WebSocket-Key: btVPuCtfAJ5uTRH2uvvHdg==
+ Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+ 

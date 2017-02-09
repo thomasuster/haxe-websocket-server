@@ -7,3 +7,6 @@
 -cp test
 -cp ../shared/src
 -neko build/neko_test.n
+
+-resource test/resources/chrome.txt@chrome
+-resource test/resources/safari.txt@safari

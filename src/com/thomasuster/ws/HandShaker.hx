@@ -25,8 +25,9 @@ class HandShaker {
         try {
             while(true) {
                 var s:String = input.readLine();
-                if(s.substr(0,'Sec-WebSocket-Key:'.length) == 'Sec-WebSocket-Key:') {
-                    key = s.substring('Sec-WebSocket-Key:'.length+1,s.length);
+                var index:Int = s.indexOf('Sec-WebSocket-Key:');
+                if(index >= 0) {
+                    key = s.substring(index+'Sec-WebSocket-Key:'.length+1,s.length-index+1);
                 }
                 if(s.length == 0)
                     break;
@@ -38,7 +39,7 @@ class HandShaker {
     }
     function writeShake():Void {
         var shake:String = hash(key);
-        var header:String = 'HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: $shake\n\r\n';
+        var header:String = 'HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: $shake\r\n\r\n';
         writeString(header);
     }
 
